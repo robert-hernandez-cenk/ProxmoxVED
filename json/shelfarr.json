@@ -1,0 +1,57 @@
+{
+    "name": "Shelfarr",
+    "slug": "shelfarr",
+    "categories": [
+        14
+    ],
+    "date_created": "2026-09-19",
+    "type": "ct",
+    "updateable": true,
+    "privileged": false,
+    "interface_port": 5056,
+    "documentation": "https://shelfarr.org/getting-started.html",
+    "website": "https://shelfarr.org/",
+    "repository": "https://github.com/Pedro-Revez-Silva/shelfarr",
+    "logo": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/shelfarr.webp",
+    "description": "Shelfarr is a self-hosted ebook and audiobook request and management system for the *arr ecosystem. Users request titles, Shelfarr searches Prowlarr, Jackett or Newznab indexers and direct sources, sends the release to a download client, and delivers the finished book to Audiobookshelf.",
+    "install_methods": [
+        {
+            "type": "default",
+            "script": "ct/shelfarr.sh",
+            "config_path": "/opt/shelfarr/.env",
+            "resources": {
+                "cpu": 2,
+                "ram": 2048,
+                "hdd": 10,
+                "os": "Debian",
+                "version": "13"
+            }
+        }
+    ],
+    "default_credentials": {
+        "username": null,
+        "password": null
+    },
+    "notes": [
+        {
+            "text": "The first account registered at http://IP:5056 becomes the admin.",
+            "type": "info"
+        },
+        {
+            "text": "Library and download folders are set in Shelfarr's own settings. Add the mount points for audiobooks, ebooks and the download client's completed folder to the container before configuring them.",
+            "type": "info"
+        },
+        {
+            "text": "The database, the generated secret key and the encryption keys live in /opt/shelfarr/storage and /opt/shelfarr/.env. Losing the encryption keys makes stored indexer and download-client credentials unreadable, so include both in container backups.",
+            "type": "warning"
+        },
+        {
+            "text": "Installation compiles Ruby and precompiles assets; allow several minutes for setup.",
+            "type": "info"
+        },
+        {
+            "text": "The optional Libation companion for Audible backups is a separate service and is not installed; that integration stays idle.",
+            "type": "info"
+        }
+    ]
+}
