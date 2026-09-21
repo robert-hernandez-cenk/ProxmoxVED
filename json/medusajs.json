@@ -1,0 +1,61 @@
+{
+    "name": "Medusa",
+    "slug": "medusajs",
+    "categories": [
+        25
+    ],
+    "date_created": "2026-09-21",
+    "type": "ct",
+    "updateable": true,
+    "privileged": false,
+    "interface_port": 9000,
+    "documentation": "https://docs.medusajs.com/learn",
+    "website": "https://medusajs.com/",
+    "repository": "https://github.com/medusajs/medusa",
+    "logo": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/medusa.webp",
+    "description": "Medusa is an open-source commerce platform built on Node.js. It ships the commerce modules, a Store and Admin REST API and an admin dashboard, and is extended in TypeScript with custom modules, workflows, subscribers and API routes.",
+    "install_methods": [
+        {
+            "type": "default",
+            "script": "ct/medusajs.sh",
+            "config_path": "/opt/medusajs/apps/backend/.env",
+            "resources": {
+                "cpu": 4,
+                "ram": 4096,
+                "hdd": 15,
+                "os": "Debian",
+                "version": "13"
+            }
+        }
+    ],
+    "default_credentials": {
+        "username": null,
+        "password": null
+    },
+    "notes": [
+        {
+            "text": "The admin dashboard is served by Medusa itself at http://IP:9000/app. The generated admin login, along with the PostgreSQL credentials, is in /root/medusa.creds.",
+            "type": "info"
+        },
+        {
+            "text": "STORE_CORS, ADMIN_CORS and AUTH_CORS are set to the container IP. Add every origin that will reach the API, including a reverse-proxy hostname or a storefront URL, or the browser will block the requests.",
+            "type": "warning"
+        },
+        {
+            "text": "Cookies are configured with sameSite lax and secure false, because Medusa's production defaults refuse to authenticate over plain HTTP on an IP address. Tighten cookieOptions in medusa-config.ts once TLS fronts the container.",
+            "type": "warning"
+        },
+        {
+            "text": "The database is seeded with the starter's default sales channel, publishable API key, regions and demo catalog. The demo products are safe to delete; the sales channel and the publishable key are not, as the Store API needs them.",
+            "type": "info"
+        },
+        {
+            "text": "Medusa is headless and a framework rather than a finished store: no storefront is installed, and custom modules, workflows and API routes go in /opt/medusajs/apps/backend/src. Changes there need a rebuild (pnpm exec medusa build) and a service restart.",
+            "type": "info"
+        },
+        {
+            "text": "Updates bump the @medusajs packages, run migrations and rebuild, leaving your own src untouched. Minor Medusa releases may carry breaking changes, so read the release notes before updating.",
+            "type": "warning"
+        }
+    ]
+}
