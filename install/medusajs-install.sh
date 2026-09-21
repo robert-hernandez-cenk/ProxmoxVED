@@ -18,7 +18,7 @@ $STD apt install -y redis-server
 msg_ok "Installed Dependencies"
 
 PG_VERSION="17" setup_postgresql
-PG_DB_NAME="medusa" PG_DB_USER="medusa" PG_DB_SCHEMA_PERMS="true" PG_DB_CREDS_FILE="/root/medusa.creds" setup_postgresql_db
+PG_DB_NAME="medusa" PG_DB_USER="medusa" PG_DB_SCHEMA_PERMS="true" PG_DB_CREDS_FILE="/root/medusajs.creds" setup_postgresql_db
 NODE_VERSION="22" NODE_MODULE="pnpm@10.11.1" setup_nodejs
 
 # Medusa is a framework, not a released artifact: upstream ships no deployable
@@ -134,8 +134,8 @@ $STD pnpm exec medusa user --email "$ADMIN_EMAIL" --password "$ADMIN_PASSWORD"
   echo "Medusa Admin Credentials"
   echo "Email: $ADMIN_EMAIL"
   echo "Password: $ADMIN_PASSWORD"
-} >>/root/medusa.creds
-chmod 600 /root/medusa.creds
+} >>/root/medusajs.creds
+chmod 600 /root/medusajs.creds
 msg_ok "Created Admin User"
 
 msg_info "Building Medusa"

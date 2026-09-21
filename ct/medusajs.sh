@@ -6,7 +6,7 @@ source "$_cs_boot" 2>/dev/null || source <(curl -fsSL "${COMMUNITY_SCRIPTS_CORE_
 # License: MIT | https://github.com/community-scripts/ProxmoxVED/raw/main/LICENSE
 # Source: https://medusajs.com/
 
-APP="Medusa"
+APP="MedusaJS"
 var_tags="${var_tags:-ecommerce;commerce}"
 var_cpu="${var_cpu:-4}"
 var_ram="${var_ram:-4096}"

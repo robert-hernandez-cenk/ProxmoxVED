@@ -1,5 +1,5 @@
 {
-    "name": "Medusa",
+    "name": "MedusaJS",
     "slug": "medusajs",
     "categories": [
         25
@@ -34,7 +34,7 @@
     },
     "notes": [
         {
-            "text": "The admin dashboard is served by Medusa itself at http://IP:9000/app. The generated admin login, along with the PostgreSQL credentials, is in /root/medusa.creds.",
+            "text": "The admin dashboard is served by Medusa itself at http://IP:9000/app. The generated admin login, along with the PostgreSQL credentials, is in /root/medusajs.creds.",
             "type": "info"
         },
         {
