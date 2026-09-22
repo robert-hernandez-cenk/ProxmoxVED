@@ -46,7 +46,11 @@
             "type": "warning"
         },
         {
-            "text": "NEXT_PUBLIC_DEFAULT_REGION must name a region that exists in the backend. The Medusa starter seeds a Danish region by default, so a storefront pointed at 'us' shows nothing until a US region exists.",
+            "text": "NEXT_PUBLIC_DEFAULT_REGION must name a region that exists in the backend. The Medusa starter seeds a multi-country Europe/EUR region (gb, de, dk, se, fr, es, it) by default, so a storefront pointed at 'us' shows nothing until a US region exists.",
+            "type": "warning"
+        },
+        {
+            "text": "A region alone cannot take an order. Shipping is separate infrastructure from regions in Medusa: a stock location, a fulfillment set, a service zone covering the country, and a shipping option, and the starter only seeds that for Europe. A storefront pointed at a region with no shipping infrastructure reaches the delivery step of checkout with an empty shipping-method list and a permanently disabled 'Continue to payment' button, which looks like a storefront bug rather than missing backend configuration.",
             "type": "warning"
         },
         {
