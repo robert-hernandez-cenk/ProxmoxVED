@@ -35,6 +35,18 @@ function update_script() {
   # the starter and overwrite apps/storefront/src. As on the backend, an
   # update is a version bump of the Medusa packages around the user's code.
   if check_for_gh_release "medusajs-storefront" "medusajs/medusa"; then
+    # A container that installed through the skipped build gate has a .env
+    # that makes next.config.js exit at module load, so pnpm build would fail
+    # here too. Check before stopping anything, so a declined update changes
+    # nothing at all.
+    set -a
+    source /opt/medusajs-storefront/apps/storefront/.env
+    set +a
+    if [[ -z "$NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY" ]] || ! curl -fsS --max-time 10 "${NEXT_PUBLIC_MEDUSA_BACKEND_URL}/health" >/dev/null 2>&1; then
+      msg_warn "Storefront cannot be updated until it is configured: set NEXT_PUBLIC_MEDUSA_BACKEND_URL and NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY in /opt/medusajs-storefront/apps/storefront/.env, then run medusajs-storefront-rebuild"
+      exit
+    fi
+
     msg_info "Stopping Storefront"
     systemctl stop medusajs-storefront
     msg_ok "Stopped Storefront"
@@ -49,7 +61,6 @@ function update_script() {
     sed -i -E "/\"@medusajs\//s/\"${OLD_VERSION}\"/\"${NEW_VERSION}\"/" \
       package.json apps/storefront/package.json
     $STD pnpm install --no-frozen-lockfile
-    echo "$NEW_VERSION" >~/.medusajs-storefront
     msg_ok "Updated Storefront to ${NEW_VERSION}"
 
     msg_info "Rebuilding Storefront"
@@ -59,10 +70,18 @@ function update_script() {
     export NODE_OPTIONS="--max-old-space-size=3072"
     $STD pnpm build
     unset NODE_OPTIONS
+    # Written only after the build succeeds, matching the backend script: a
+    # failed build aborts via catch_errors, and marking this version current
+    # anyway would make the update never retry, leaving the storefront
+    # stopped and unbuilt but silently reported as up to date.
+    echo "$NEW_VERSION" >~/.medusajs-storefront
     msg_ok "Rebuilt Storefront"
 
     msg_info "Starting Storefront"
-    systemctl start medusajs-storefront
+    # enable, not just start: the install script only enables the unit once a
+    # build succeeds, so a container that installed unbuilt reaches its first
+    # successful update with the unit still disabled.
+    systemctl enable -q --now medusajs-storefront
     msg_ok "Started Storefront"
     msg_ok "Updated successfully!"
   fi

@@ -29,7 +29,14 @@ cd /opt/medusajs-storefront
 # serves the frontend, and the backend is a separate deployment.
 rm -rf apps/backend
 # jq is present: setup_nodejs installs it.
-MEDUSA_VERSION="$(jq -r '.dependencies["@medusajs/js-sdk"]' apps/storefront/package.json)"
+MEDUSA_VERSION="$(jq -r '.dependencies["@medusajs/js-sdk"] // empty' apps/storefront/package.json)"
+# The starter is upstream-bound, not ours: if @medusajs/js-sdk ever moves out
+# of dependencies, jq would otherwise print "null" with exit 0 and every
+# future update would silently no-op against that literal string.
+if [[ -z "$MEDUSA_VERSION" ]]; then
+  msg_error "Could not read @medusajs/js-sdk from apps/storefront/package.json"
+  exit 1
+fi
 # fetch_and_deploy_gh_branch leaves a commit sha in ~/.medusajs-storefront, but
 # updates track the Medusa release the SDK is pinned to, not the starter's git
 # history. This must come after that call, which writes the file.
@@ -65,7 +72,11 @@ cat <<'EOF' >/usr/local/bin/medusajs-storefront-rebuild
 set -euo pipefail
 cd /opt/medusajs-storefront/apps/storefront
 export NODE_OPTIONS="--max-old-space-size=3072"
-pnpm build
+# Addressed directly rather than through pnpm, for the same reason as the
+# unit's ExecStart: pnpm's location depends on how Node was installed and may
+# not be on PATH when this runs non-interactively (cron, systemd-run), while
+# the workspace .bin always is.
+./node_modules/.bin/next build
 systemctl enable -q --now medusajs-storefront && systemctl restart medusajs-storefront
 echo "Storefront rebuilt and restarted."
 EOF
