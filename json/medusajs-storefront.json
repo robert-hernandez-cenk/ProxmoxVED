@@ -1,0 +1,57 @@
+{
+    "name": "MedusaJS-Storefront",
+    "slug": "medusajs-storefront",
+    "categories": [
+        25
+    ],
+    "date_created": "2026-09-22",
+    "type": "ct",
+    "updateable": true,
+    "privileged": false,
+    "interface_port": 8000,
+    "documentation": "https://docs.medusajs.com/resources/storefront-development",
+    "website": "https://medusajs.com/",
+    "repository": "https://github.com/medusajs/dtc-starter",
+    "logo": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/medusa.webp",
+    "description": "The Next.js storefront for a Medusa commerce backend. It renders the catalog, cart and checkout against the Store API, and is customized in TypeScript like any other Next.js application.",
+    "install_methods": [
+        {
+            "type": "default",
+            "script": "ct/medusajs-storefront.sh",
+            "config_path": "/opt/medusajs-storefront/apps/storefront/.env",
+            "resources": {
+                "cpu": 2,
+                "ram": 4096,
+                "hdd": 12,
+                "os": "Debian",
+                "version": "13"
+            }
+        }
+    ],
+    "default_credentials": {
+        "username": null,
+        "password": null
+    },
+    "notes": [
+        {
+            "text": "A reachable Medusa backend is a precondition, not an option. Export MEDUSA_BACKEND_URL and MEDUSA_PUBLISHABLE_KEY (and optionally MEDUSA_DEFAULT_REGION and STOREFRONT_BASE_URL) before running the script and the storefront is built and started automatically. Without them the container is still fully installed, but the build is skipped.",
+            "type": "info"
+        },
+        {
+            "text": "Every setting is a NEXT_PUBLIC_ value, which Next inlines into the bundle at build time. After editing .env you must run medusajs-storefront-rebuild; restarting the service alone keeps serving the old values, which looks exactly like the change not taking effect.",
+            "type": "warning"
+        },
+        {
+            "text": "The backend's STORE_CORS must name this storefront's origin, and AUTH_CORS too if customer accounts are used. The browser calls the backend directly, so without it every request is blocked client-side and the storefront appears empty.",
+            "type": "warning"
+        },
+        {
+            "text": "NEXT_PUBLIC_DEFAULT_REGION must name a region that exists in the backend. The Medusa starter seeds a Danish region by default, so a storefront pointed at 'us' shows nothing until a US region exists.",
+            "type": "warning"
+        },
+        {
+            "text": "Updates bump the @medusajs packages and rebuild, leaving apps/storefront/src untouched so your customizations survive. The starter itself is never re-fetched.",
+            "type": "info"
+        }
+    ]
+}
