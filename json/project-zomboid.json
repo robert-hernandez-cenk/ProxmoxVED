@@ -1,0 +1,66 @@
+{
+    "name": "Project Zomboid",
+    "slug": "project-zomboid",
+    "categories": [
+        24
+    ],
+    "date_created": "2026-10-01",
+    "type": "ct",
+    "updateable": true,
+    "privileged": false,
+    "interface_port": null,
+    "documentation": "https://pzwiki.net/wiki/Dedicated_server",
+    "website": "https://projectzomboid.com/",
+    "repository": null,
+    "logo": "https://projectzomboid.com/favicon.ico",
+    "description": "Project Zomboid is an open-world isometric zombie survival game. This script installs its multiplayer dedicated server through SteamCMD, on either the current Build 42 or the legacy Build 41.",
+    "install_methods": [
+        {
+            "type": "default",
+            "script": "ct/project-zomboid.sh",
+            "config_path": "/home/steam/Zomboid/Server/servertest.ini",
+            "resources": {
+                "cpu": 4,
+                "ram": 8192,
+                "hdd": 20,
+                "os": "Debian",
+                "version": "13"
+            }
+        }
+    ],
+    "default_credentials": {
+        "username": "admin",
+        "password": null
+    },
+    "app_vars": [
+        {
+            "name": "var_pz_build",
+            "label": "Game Build",
+            "type": "select",
+            "options": [
+                "42",
+                "41"
+            ],
+            "default": "42",
+            "help": "42 tracks the current public Steam branch; 41 installs the legacy41 branch. Players must run the same build as the server"
+        }
+    ],
+    "notes": [
+        {
+            "text": "Players connect to IP:16261. Open UDP 16261-16262 on your router to allow players from outside your network.",
+            "type": "info"
+        },
+        {
+            "text": "The generated admin password is in ~/project-zomboid.creds. Server settings, sandbox options and saves live in /home/steam/Zomboid.",
+            "type": "info"
+        },
+        {
+            "text": "Server console commands can be sent with: echo \"servermsg hello\" > /run/project-zomboid.stdin. The output is in journalctl -u project-zomboid.",
+            "type": "info"
+        },
+        {
+            "text": "The Java heap is set to the container's memory minus 1.5 GB on install and on every update. After changing the container's RAM, run the update to resize it.",
+            "type": "info"
+        }
+    ]
+}
