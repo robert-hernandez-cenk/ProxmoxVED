@@ -1,0 +1,53 @@
+{
+    "name": "Bellhop",
+    "slug": "bellhop",
+    "categories": [
+        1
+    ],
+    "date_created": "2026-10-05",
+    "type": "ct",
+    "updateable": true,
+    "privileged": false,
+    "interface_port": 3000,
+    "documentation": "https://github.com/robert-hernandez-cenk/Bellhop/blob/main/docs/lxc-container.md",
+    "website": "https://github.com/robert-hernandez-cenk/Bellhop",
+    "repository": "https://github.com/robert-hernandez-cenk/Bellhop",
+    "logo": "https://cdn.jsdelivr.net/gh/robert-hernandez-cenk/Bellhop@main/web-client/public/favicon.svg",
+    "description": "Bellhop manages a Proxmox homelab over SSH: an inventory of hosts, containers and VMs, provisioning, OS and app updates, NFS mounts, reverse-proxy routes and Authentik access, from a web UI, a CLI and an MCP server.",
+    "install_methods": [
+        {
+            "type": "default",
+            "script": "ct/bellhop.sh",
+            "config_path": "/etc/default/bellhop",
+            "resources": {
+                "cpu": 2,
+                "ram": 2048,
+                "hdd": 8,
+                "os": "Debian",
+                "version": "13"
+            }
+        }
+    ],
+    "default_credentials": {
+        "username": null,
+        "password": null
+    },
+    "notes": [
+        {
+            "text": "Bellhop reaches every Proxmox host with the container's SSH key. Add /root/.ssh/id_ed25519.pub to /root/.ssh/authorized_keys on one node; in a cluster that file is shared by every node.",
+            "type": "info"
+        },
+        {
+            "text": "The web UI starts with sign-in off. Set up sign-in through Authentik before making it reachable from untrusted networks.",
+            "type": "warning"
+        },
+        {
+            "text": "The inventory and settings live in /var/lib/bellhop, outside the application directory. Include it in container backups.",
+            "type": "info"
+        },
+        {
+            "text": "A fresh install has no inventory. Import one with bellhop import-yaml-inventory, then run bellhop sync-inventory --apply.",
+            "type": "info"
+        }
+    ]
+}
