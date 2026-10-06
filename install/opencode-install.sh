@@ -27,8 +27,9 @@ ln -sf /opt/opencode/opencode /usr/local/bin/opencode
 msg_info "Configuring OpenCode"
 cat <<EOF2 >/opt/opencode/.env
 OPENCODE_SERVER_USERNAME=opencode
-OPENCODE_SERVER_PASSWORD=$(openssl rand -base64 18 | tr -dc 'a-zA-Z0-9' | cut -c1-16)
+OPENCODE_SERVER_PASSWORD=$(random_password 16)
 EOF2
+chmod 600 /opt/opencode/.env
 msg_ok "Configured OpenCode"
 
 msg_info "Creating Service"
