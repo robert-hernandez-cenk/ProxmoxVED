@@ -1,0 +1,53 @@
+{
+  "name": "Job Ops",
+  "slug": "job-ops",
+  "categories": [
+    0
+  ],
+  "date_created": "2026-10-07",
+  "type": "ct",
+  "updateable": true,
+  "privileged": false,
+  "interface_port": 3005,
+  "documentation": "https://jobops.dakheera47.com/docs/",
+  "website": "https://jobops.app/",
+  "repository": "https://github.com/DaKheera47/job-ops",
+  "logo": "https://raw.githubusercontent.com/DaKheera47/job-ops/main/docs-site/static/img/logo.svg",
+  "description": "Job Ops applies DevOps principles to job hunting. It searches job boards, scores matches with an LLM, builds a tailored resume per role and tracks application status from Gmail replies.",
+  "install_methods": [
+    {
+      "type": "default",
+      "script": "ct/job-ops.sh",
+      "config_path": "/opt/job-ops/.env",
+      "resources": {
+        "cpu": 4,
+        "ram": 4096,
+        "hdd": 16,
+        "os": "Debian",
+        "version": "13"
+      }
+    }
+  ],
+  "default_credentials": {
+    "username": null,
+    "password": null
+  },
+  "notes": [
+    {
+      "text": "Job Ops has no sign-in by default. Set BASIC_AUTH_USER and BASIC_AUTH_PASSWORD in /opt/job-ops/.env and run 'systemctl restart job-ops' before exposing it beyond a trusted network.",
+      "type": "warning"
+    },
+    {
+      "text": "Finish setup in the onboarding wizard at http://<IP>:3005. LLM, Reactive Resume and Gmail credentials are entered there or in /opt/job-ops/.env.",
+      "type": "info"
+    },
+    {
+      "text": "The database, generated PDFs and Codex login are in /var/lib/job-ops. Back that directory up together with /opt/job-ops/.env.",
+      "type": "info"
+    },
+    {
+      "text": "Job Ops is released under AGPLv3 with the Commons Clause: self-hosting is free, commercial hosted services based on it are not permitted.",
+      "type": "info"
+    }
+  ]
+}
