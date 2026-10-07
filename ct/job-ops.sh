@@ -6,7 +6,7 @@ source "$_cs_boot" 2>/dev/null || source <(curl -fsSL "${COMMUNITY_SCRIPTS_CORE_
 # License: MIT | https://github.com/community-scripts/ProxmoxVED/raw/main/LICENSE
 # Source: https://github.com/DaKheera47/job-ops
 
-APP="Job Ops"
+APP="Job-Ops"
 var_tags="${var_tags:-jobs;career;ai}"
 var_cpu="${var_cpu:-4}"
 var_ram="${var_ram:-4096}"
