@@ -13,6 +13,10 @@ setting_up_container
 network_check
 update_os
 
+# Node comes first: the novnc package depends on nodejs and would otherwise install Debian's Node 20,
+# which setup_nodejs then refuses to replace.
+NODE_VERSION="22" setup_nodejs
+
 # python3 and build-essential: npm runs node-gyp on native workspace dependencies.
 # The GTK/dbus/asound/xt libraries are what the Playwright and Camoufox Firefox builds link against.
 # xvfb, x11vnc, novnc and websockify serve the Cloudflare challenge viewer, which the app starts on demand.
@@ -33,7 +37,6 @@ $STD apt install -y \
   websockify
 msg_ok "Installed Dependencies"
 
-NODE_VERSION="22" setup_nodejs
 PYTHON_VERSION="3.12" setup_uv
 
 # Upstream pins Tectonic 0.15.0 in its Dockerfile. Tectonic's "latest" release is a rolling
