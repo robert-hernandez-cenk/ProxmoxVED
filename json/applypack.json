@@ -1,0 +1,49 @@
+{
+  "name": "ApplyPack",
+  "slug": "applypack",
+  "categories": [
+    0
+  ],
+  "date_created": "2026-10-07",
+  "type": "ct",
+  "updateable": true,
+  "privileged": false,
+  "interface_port": 4747,
+  "documentation": "https://github.com/applypack/applypack/blob/main/docs/install.md",
+  "website": "https://applypack.dev",
+  "repository": "https://github.com/applypack/applypack",
+  "logo": "https://raw.githubusercontent.com/applypack/applypack/main/site/public/favicon.svg",
+  "description": "ApplyPack is a self-hosted AI console for the whole job search. It watches job sources, checks the postings are real, scores your resume against them, drafts cover letters and tracks each application.",
+  "install_methods": [
+    {
+      "type": "default",
+      "script": "ct/applypack.sh",
+      "config_path": "/opt/applypack/.env",
+      "resources": {
+        "cpu": 2,
+        "ram": 2048,
+        "hdd": 8,
+        "os": "Debian",
+        "version": "13"
+      }
+    }
+  ],
+  "default_credentials": {
+    "username": null,
+    "password": null
+  },
+  "notes": [
+    {
+      "text": "ApplyPack has no sign-in by default. Set WEB_BASIC_AUTH=username:password in /opt/applypack/.env and run 'systemctl restart applypack applypack-web' before exposing it beyond a trusted network.",
+      "type": "warning"
+    },
+    {
+      "text": "Pick an AI engine under Settings > AI engine. API keys can be pasted there or set in /opt/applypack/.env; CLI engines (Claude Code, Gemini CLI, Codex) are installed and need a one-time login in the container.",
+      "type": "info"
+    },
+    {
+      "text": "The database is a local PostgreSQL 16 (database and user 'applypack'). The generated password is in /opt/applypack/.env as DATABASE_URL.",
+      "type": "info"
+    }
+  ]
+}
