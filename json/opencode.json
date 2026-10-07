@@ -1,0 +1,53 @@
+{
+  "name": "OpenCode",
+  "slug": "opencode",
+  "categories": [
+    20
+  ],
+  "date_created": "2026-10-05",
+  "type": "ct",
+  "updateable": true,
+  "privileged": false,
+  "interface_port": 4096,
+  "documentation": "https://opencode.ai/docs/server/",
+  "website": "https://opencode.ai",
+  "repository": "https://github.com/anomalyco/opencode",
+  "logo": "https://opencode.ai/favicon.svg",
+  "description": "OpenCode is an open-source AI coding agent. This script runs it as a server, with the web UI optional.",
+  "install_methods": [
+    {
+      "type": "default",
+      "script": "ct/opencode.sh",
+      "config_path": "/opt/opencode/.env",
+      "resources": {
+        "cpu": 2,
+        "ram": 2048,
+        "hdd": 8,
+        "os": "Debian",
+        "version": "13"
+      }
+    }
+  ],
+  "default_credentials": {
+    "username": "opencode",
+    "password": null
+  },
+  "app_vars": [
+    {
+      "name": "var_opencode_web",
+      "label": "Enable Web UI",
+      "type": "boolean",
+      "default": "yes"
+    }
+  ],
+  "notes": [
+    {
+      "text": "The generated password is in /opt/opencode/.env (OPENCODE_SERVER_PASSWORD). The username is opencode.",
+      "type": "info"
+    },
+    {
+      "text": "Declining the web UI runs the headless API server (opencode serve) on the same port. Configure model providers and API keys after install.",
+      "type": "info"
+    }
+  ]
+}
