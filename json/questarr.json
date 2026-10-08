@@ -1,0 +1,49 @@
+{
+  "name": "Questarr",
+  "slug": "questarr",
+  "categories": [
+    14
+  ],
+  "date_created": "2026-10-08",
+  "type": "ct",
+  "updateable": true,
+  "privileged": false,
+  "interface_port": 5000,
+  "documentation": "https://github.com/Doezer/Questarr#readme",
+  "website": "https://github.com/Doezer/Questarr",
+  "repository": "https://github.com/Doezer/Questarr",
+  "logo": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/questarr.webp",
+  "description": "Questarr is an *Arr-inspired game manager. It helps you discover, track and automatically download the games you want, using IGDB metadata, Torznab/Newznab indexers and your download client.",
+  "install_methods": [
+    {
+      "type": "default",
+      "script": "ct/questarr.sh",
+      "config_path": "/opt/questarr/.env",
+      "resources": {
+        "cpu": 2,
+        "ram": 2048,
+        "hdd": 6,
+        "os": "Debian",
+        "version": "13"
+      }
+    }
+  ],
+  "default_credentials": {
+    "username": null,
+    "password": null
+  },
+  "notes": [
+    {
+      "text": "Create the admin account on first visit to the web UI.",
+      "type": "info"
+    },
+    {
+      "text": "Game discovery needs IGDB credentials (Twitch developer app). Enter them under Settings, or set IGDB_CLIENT_ID and IGDB_CLIENT_SECRET in /opt/questarr/.env.",
+      "type": "info"
+    },
+    {
+      "text": "Data lives in the SQLite database at /opt/questarr/data/sqlite.db.",
+      "type": "info"
+    }
+  ]
+}
