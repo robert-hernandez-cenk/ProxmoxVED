@@ -4,7 +4,7 @@ source "$_cs_boot" 2>/dev/null || source <(curl -fsSL "${COMMUNITY_SCRIPTS_CORE_
 # Copyright (c) 2021-2026 community-scripts ORG
 # Author: robert-hernandez-cenk
 # License: MIT | https://github.com/community-scripts/ProxmoxVED/raw/main/LICENSE
-# Source: https://github.com/applypack/applypack
+# Source: https://github.com/robert-hernandez-cenk/applypack
 
 APP="ApplyPack"
 var_tags="${var_tags:-jobs;career;ai}"
@@ -32,7 +32,7 @@ function update_script() {
   fi
 
   # The database lives in PostgreSQL; the worker applies pending migrations when it starts.
-  if check_for_gh_release "applypack" "applypack/applypack"; then
+  if check_for_gh_release "applypack" "robert-hernandez-cenk/applypack"; then
     msg_info "Stopping ApplyPack"
     systemctl stop applypack-web applypack
     msg_ok "Stopped ApplyPack"
@@ -40,7 +40,7 @@ function update_script() {
     create_backup /opt/applypack/.env
 
     NODE_VERSION="24" setup_nodejs
-    CLEAN_INSTALL=1 fetch_and_deploy_gh_release "applypack" "applypack/applypack" "tarball"
+    CLEAN_INSTALL=1 fetch_and_deploy_gh_release "applypack" "robert-hernandez-cenk/applypack" "tarball"
 
     restore_backup
 
