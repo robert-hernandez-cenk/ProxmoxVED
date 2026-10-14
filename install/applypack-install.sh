@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2026 community-scripts ORG
 # Author: robert-hernandez-cenk
 # License: MIT | https://github.com/community-scripts/ProxmoxVED/raw/main/LICENSE
-# Source: https://github.com/applypack/applypack
+# Source: https://github.com/robert-hernandez-cenk/applypack
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
 color
@@ -17,7 +17,7 @@ NODE_VERSION="24" setup_nodejs
 PG_VERSION="16" setup_postgresql
 PG_DB_NAME="applypack" PG_DB_USER="applypack" setup_postgresql_db
 
-fetch_and_deploy_gh_release "applypack" "applypack/applypack" "tarball"
+fetch_and_deploy_gh_release "applypack" "robert-hernandez-cenk/applypack" "tarball"
 
 msg_info "Building ApplyPack"
 cd /opt/applypack
