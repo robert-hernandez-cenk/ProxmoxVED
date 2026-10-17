@@ -67,5 +67,5 @@ fi
 if [[ -n "${var_penpot_public_uri}" ]]; then
   echo -e "${INFO}${YW}Public URL:${CL} ${GATEWAY}${BGN}${var_penpot_public_uri}${CL}"
 fi
-echo -e "${INFO}${YW}Outgoing mail (registration, invites) is caught by Mailpit:${CL}"
-echo -e "${GATEWAY}${BGN}http://${IP}:8025${CL}"
+echo -e "${INFO}${YW}Outgoing mail (registration, invites) is caught by Mailcatcher:${CL}"
+echo -e "${GATEWAY}${BGN}http://${IP}:1080${CL}"

@@ -92,7 +92,7 @@ EOF
   msg_ok "Started ${APP}"
 
   msg_ok "${APP} installed at http://${IP}:${port}"
-  msg_ok "Outgoing mail (registration, invites) is caught by Mailpit at http://${IP}:8025"
+  msg_ok "Outgoing mail (registration, invites) is caught by Mailcatcher at http://${IP}:1080"
 }
 
 function update_penpot() {
