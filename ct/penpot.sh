@@ -45,6 +45,14 @@ function update_script() {
     cd /opt/penpot
     curl -fsSL "https://raw.githubusercontent.com/penpot/penpot/${CHECK_UPDATE_RELEASE}/docker/images/docker-compose.yaml" -o docker-compose.yml
     sed -i "s|^PENPOT_VERSION=.*|PENPOT_VERSION=${CHECK_UPDATE_RELEASE}|" .env
+    # Upstream's flags may change between releases; rebuild them, keeping
+    # secure cookies on when the public URL is https
+    FLAGS=$(grep -m1 -oP 'PENPOT_FLAGS: \K.*' docker-compose.yml | sed 's/[[:space:]]*$//')
+    if grep -q '^PENPOT_PUBLIC_URI=https://' .env; then
+      FLAGS="${FLAGS} enable-secure-session-cookies"
+    fi
+    sed -i '/^PENPOT_FLAGS=/d' .env
+    echo "PENPOT_FLAGS=\"${FLAGS}\"" >>.env
     $STD docker compose pull
     $STD docker compose up -d
     echo "${CHECK_UPDATE_RELEASE}" >~/.penpot
