@@ -9,6 +9,13 @@ source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
 color
 verb_ip6
 catch_errors
+
+# Asked first so the answer is in place before anything installs; a blank
+# answer (or no terminal) falls back to http://<container-ip>:<port> below
+if [[ -z "${var_penpot_public_uri:-}" ]]; then
+  read -r -p "${TAB3}Penpot public URL, for example https://design.example.com (blank = http://<container-ip>:9001): " var_penpot_public_uri || true
+fi
+
 setting_up_container
 network_check
 update_os
