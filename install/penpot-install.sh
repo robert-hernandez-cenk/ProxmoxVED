@@ -26,12 +26,13 @@ msg_info "Setting up Penpot"
 RELEASE=$(get_latest_github_release "penpot/penpot")
 IP=$(hostname -I | awk '{print $1}')
 PORT="${var_penpot_port:-9001}"
-PUBLIC_URI="${var_penpot_public_uri:-$IP}"
-PUBLIC_URI="${PUBLIC_URI%/}"
-# A bare host gets http://, and plain http without a port gets the Penpot port
-[[ "$PUBLIC_URI" == *://* ]] || PUBLIC_URI="http://${PUBLIC_URI}"
-if [[ "$PUBLIC_URI" == http://* && ! "${PUBLIC_URI#http://}" =~ :[0-9]+$ ]]; then
-  PUBLIC_URI="${PUBLIC_URI}:${PORT}"
+# What the browser uses to reach Penpot. A bare host is taken to sit behind a
+# reverse proxy, so it becomes https://<host> with no port; blank uses the IP
+if [[ -n "${var_penpot_public_uri:-}" ]]; then
+  PUBLIC_URI="${var_penpot_public_uri%/}"
+  [[ "$PUBLIC_URI" == *://* ]] || PUBLIC_URI="https://${PUBLIC_URI}"
+else
+  PUBLIC_URI="http://${IP}:${PORT}"
 fi
 case "${var_penpot_telemetry:-yes}" in
 no | false | 0) TELEMETRY="false" ;;
