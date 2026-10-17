@@ -54,6 +54,13 @@ function update_script() {
 }
 
 start
+
+# Asked in Advanced install; Default install and unattended runs skip it
+# and fall back to http://<container-ip>:<port> in the install script
+if [[ -z "${var_penpot_public_uri}" ]]; then
+  var_penpot_public_uri=$(prompt_input "Penpot public URL, e.g. https://design.example.com (blank = http://<container-ip>:${var_penpot_port:-9001}):" "" 120)
+fi
+
 build_container
 description
 
