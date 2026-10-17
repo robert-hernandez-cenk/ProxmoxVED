@@ -40,11 +40,18 @@ no | false | 0) TELEMETRY="false" ;;
 esac
 mkdir -p /opt/penpot
 curl -fsSL "https://raw.githubusercontent.com/penpot/penpot/${RELEASE}/docker/images/docker-compose.yaml" -o /opt/penpot/docker-compose.yml
+# Upstream sets disable-secure-session-cookies for plain HTTP; later flags win,
+# so an https public URL turns secure cookies back on
+FLAGS=$(grep -m1 -oP 'PENPOT_FLAGS: \K.*' /opt/penpot/docker-compose.yml | sed 's/[[:space:]]*$//')
+if [[ "$PUBLIC_URI" == https://* ]]; then
+  FLAGS="${FLAGS} enable-secure-session-cookies"
+fi
 cat <<EOF >/opt/penpot/.env
 PENPOT_VERSION=${RELEASE}
 PENPOT_PORT=${PORT}
 PENPOT_PUBLIC_URI=${PUBLIC_URI}
 PENPOT_TELEMETRY_ENABLED=${TELEMETRY}
+PENPOT_FLAGS="${FLAGS}"
 PENPOT_SECRET_KEY=$(openssl rand -base64 48 | tr -d '\n')
 EOF
 chmod 600 /opt/penpot/.env
@@ -57,11 +64,13 @@ services:
       - ${PENPOT_PORT}:8080
     environment:
       PENPOT_PUBLIC_URI: ${PENPOT_PUBLIC_URI}
+      PENPOT_FLAGS: ${PENPOT_FLAGS}
   penpot-backend:
     environment:
       PENPOT_PUBLIC_URI: ${PENPOT_PUBLIC_URI}
       PENPOT_SECRET_KEY: ${PENPOT_SECRET_KEY}
       PENPOT_TELEMETRY_ENABLED: ${PENPOT_TELEMETRY_ENABLED}
+      PENPOT_FLAGS: ${PENPOT_FLAGS}
   penpot-admin-console:
     environment:
       PENPOT_PUBLIC_URI: ${PENPOT_PUBLIC_URI}
@@ -70,6 +79,7 @@ services:
     environment:
       PENPOT_PUBLIC_URI: ${PENPOT_PUBLIC_URI}
       PENPOT_SECRET_KEY: ${PENPOT_SECRET_KEY}
+      PENPOT_FLAGS: ${PENPOT_FLAGS}
 EOF
 echo "${RELEASE}" >~/.penpot
 msg_ok "Set up Penpot ${RELEASE}"
