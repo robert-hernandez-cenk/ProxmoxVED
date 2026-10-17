@@ -67,6 +67,12 @@ description
 msg_ok "Completed Successfully!\n"
 echo -e "${CREATING}${GN}${APP} setup has been successfully initialized!${CL}"
 echo -e "${INFO}${YW}Access it using the following URL:${CL}"
-echo -e "${GATEWAY}${BGN}${var_penpot_public_uri:-http://${IP}:${var_penpot_port:-9001}}${CL}"
+echo -e "${GATEWAY}${BGN}http://${IP}:9001${CL}"
+if [[ -n "${var_penpot_port}" && "${var_penpot_port}" != "9001" ]]; then
+  echo -e "${INFO}${YW}Port set to ${var_penpot_port}:${CL} ${GATEWAY}${BGN}http://${IP}:${var_penpot_port}${CL}"
+fi
+if [[ -n "${var_penpot_public_uri}" ]]; then
+  echo -e "${INFO}${YW}Public URL:${CL} ${GATEWAY}${BGN}${var_penpot_public_uri}${CL}"
+fi
 echo -e "${INFO}${YW}Outgoing mail (registration, invites) is caught by Mailpit:${CL}"
 echo -e "${GATEWAY}${BGN}http://${IP}:8025${CL}"
